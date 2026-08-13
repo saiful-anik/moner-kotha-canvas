@@ -158,8 +158,8 @@ function Canvas() {
 
       <form
         onSubmit={submit}
-        className="paper-edge absolute left-1/2 top-1/2 flex w-[min(560px,calc(100%-2rem))] -translate-x-1/2 -translate-y-1/2 flex-wrap items-center gap-2 border-[3px] border-foreground bg-note px-4 py-3"
-        style={{ boxShadow: "4px 4px 0 var(--pencil)", transform: "translate(-50%, -50%) rotate(-0.4deg)" }}
+        className="paper-edge absolute bottom-5 left-1/2 flex w-[min(560px,calc(100%-2rem))] -translate-x-1/2 flex-wrap items-center gap-2 border-[3px] border-foreground bg-note px-4 py-3"
+        style={{ boxShadow: "4px 4px 0 var(--pencil)", transform: "translateX(-50%) rotate(-0.4deg)" }}
       >
         <div className="flex items-center gap-1">
           {(["good", "bad"] as const).map((m, i) => {
