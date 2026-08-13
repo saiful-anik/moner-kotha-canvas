@@ -132,13 +132,72 @@
   --sidebar-ring: oklch(0.551 0.027 264.364);
 }
 
+@theme inline {
+  --font-hand: "Patrick Hand", ui-sans-serif, cursive;
+  --font-scrawl: "Kalam", ui-sans-serif, cursive;
+  --color-note: var(--note);
+  --color-postit: var(--postit);
+  --color-ink-blue: var(--ink-blue);
+  --color-ink-red: var(--ink-red);
+}
+
+:root {
+  --background: oklch(0.985 0.008 85);
+  --foreground: oklch(0.29 0 0);
+  --pencil: #2d2d2d;
+  --muted: oklch(0.91 0.012 80);
+  --muted-foreground: oklch(0.52 0.01 80);
+  --border: oklch(0.29 0 0);
+  --note: #fffdf8;
+  --postit: #fff9c4;
+  --ink-blue: #2d5da1;
+  --ink-red: #ff4d4d;
+  --primary: oklch(0.29 0 0);
+  --primary-foreground: oklch(0.985 0.008 85);
+}
+
 @layer base {
   * {
     border-color: var(--color-border);
   }
 
+  html,
+  body {
+    overflow: hidden;
+    overscroll-behavior: none;
+    height: 100%;
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: var(--font-hand);
+    -webkit-tap-highlight-color: transparent;
   }
 }
+
+@utility paper-edge {
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+}
+
+@utility paper-edge-alt {
+  border-radius: 15px 225px 15px 255px / 225px 15px 255px 15px;
+}
+
+@utility tape {
+  background: color-mix(in oklab, var(--postit) 70%, transparent);
+  border: 1px solid color-mix(in oklab, var(--pencil) 12%, transparent);
+}
+
+@utility dots {
+  background-image: radial-gradient(#e5e0d8 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+@keyframes thought-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.96);
+  }
+}
+
