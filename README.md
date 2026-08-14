@@ -1,5 +1,26 @@
 # Moner Kotha Canvas
 
+Anonymous thoughts on an infinite canvas, built as a pnpm workspace.
+
+## Stack
+
+- Frontend: Vite, React, React Router, React Query, Tailwind CSS
+- Backend: Hono on Cloudflare Workers
+- Database: Neon Postgres with Drizzle ORM
+
+Authentication and Docker are intentionally not included.
+
+## Development
+
+1. Copy `apps/backend/.dev.vars.example` to `apps/backend/.dev.vars` and set your Neon `DATABASE_URL`.
+2. Copy `apps/frontend/.env.example` to `apps/frontend/.env` if the API is not at `http://localhost:8787`.
+3. Install dependencies with `pnpm install`.
+4. Start both applications with `pnpm dev`.
+
+Use `pnpm db:generate` and `pnpm db:migrate` after changing the database schema. For Cloudflare deployment, add `DATABASE_URL` with `wrangler secret put DATABASE_URL` from `apps/backend`.
+
+---
+
 Build the frontend for a web app called “Moner Kotha” using:
 
 React
@@ -477,16 +498,6 @@ hand-drawn imperfection
 smooth dragging
 
 Keep everything else minimal.
-
-This project was built with [Lovable](https://lovable.dev).
-
-## Build with Lovable
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/058ba7c6-275b-4a51-aff8-2d3c53cdceb8).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
 
 ## Development
 

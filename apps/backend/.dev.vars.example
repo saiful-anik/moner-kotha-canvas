@@ -1,0 +1,4 @@
+# Obtain this pooled connection string from Neon. Do not commit actual credentials.
+DATABASE_URL=postgresql://USER:PASSWORD@HOST/DATABASE?sslmode=require
+# Comma-separated browser origins allowed to call this Worker.
+CORS_ORIGIN=http://localhost:5173
