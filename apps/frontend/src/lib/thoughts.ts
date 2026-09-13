@@ -9,40 +9,6 @@ export type Thought = {
   opacity: number;
   accent: "none" | "underline" | "scribble" | "circle" | "cross";
 };
-
-const SEED_TEXTS: Array<{ text: string; mood: "good" | "bad" }> = [
-  { text: "ajke mon ta bhalo", mood: "good" },
-  { text: "i miss someone i shouldn't", mood: "bad" },
-  { text: "finally something went right", mood: "good" },
-  { text: "kichui bhalo lagtese na", mood: "bad" },
-  { text: "she texted back :)", mood: "good" },
-  { text: "tired of everything", mood: "bad" },
-  { text: "maybe tomorrow will be better", mood: "good" },
-  { text: "ajke peaceful lagse", mood: "good" },
-  { text: "i think i'm healing", mood: "good" },
-  { text: "ami ar pari na", mood: "bad" },
-  { text: "cha khete ichhe korche", mood: "good" },
-  { text: "nobody asked how i was", mood: "bad" },
-  { text: "the sky looked kind today", mood: "good" },
-  { text: "amar ghum ashe na", mood: "bad" },
-  { text: "i laughed for real", mood: "good" },
-  { text: "everything feels heavy", mood: "bad" },
-  { text: "ma call korechilo", mood: "good" },
-  { text: "i keep pretending i'm fine", mood: "bad" },
-  { text: "walked home slowly", mood: "good" },
-  { text: "bhitore fanka lage", mood: "bad" },
-  { text: "someone smiled at me", mood: "good" },
-  { text: "i wish i said it back", mood: "bad" },
-  { text: "chotto ekta jinis bhalo laglo", mood: "good" },
-  { text: "still overthinking at 3am", mood: "bad" },
-  { text: "old song, old memory", mood: "bad" },
-  { text: "i finished the thing :)", mood: "good" },
-  { text: "brishti holo ajke", mood: "good" },
-  { text: "i don't want to explain again", mood: "bad" },
-  { text: "amar kono kotha nei", mood: "bad" },
-  { text: "small joy, still joy", mood: "good" },
-];
-
 export const CHAR_W = 9.2;
 
 export function boxOf(t: { text: string; x: number; y: number; size: number }) {
@@ -95,13 +61,4 @@ export function makeThought(
     candidate = t;
   }
   return candidate!;
-}
-
-export function seedThoughts(): Thought[] {
-  const out: Thought[] = [];
-  const pool = [...SEED_TEXTS, ...SEED_TEXTS.map((s) => ({ ...s }))].slice(0, 44);
-  for (const s of pool) {
-    out.push(makeThought(s.text, s.mood, out, { x: 0, y: 0, w: 1700, h: 1200 }));
-  }
-  return out;
 }

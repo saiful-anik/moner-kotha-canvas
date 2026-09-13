@@ -1,4 +1,4 @@
-const apiBaseUrl = import.meta.env.VITE_API_URL ?? "http://localhost:8787";
+const apiBaseUrl = import.meta.env.VITE_API_URL ?? "https://api.monerkotha.bysaiful.site";
 type ApiSuccess<T> = { status: true; data: T; error: Record<string, never> };
 type ApiFailure = { status: false; data: Record<string, never>; error: { message: string; code: string } };
 

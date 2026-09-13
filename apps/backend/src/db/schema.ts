@@ -10,6 +10,8 @@ export const thoughts = pgTable("thoughts", {
   y: integer("y").notNull(),
   rotation: integer("rotation").notNull(),
   size: integer("size").notNull(),
+  width: integer("width").notNull(),
+  alignment: text("alignment").notNull(),
   opacity: integer("opacity").notNull(),
   accent: text("accent").notNull(),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),

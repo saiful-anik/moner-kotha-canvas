@@ -13,14 +13,13 @@
   },
   "dependencies": {
     "@neondatabase/serverless": "1.0.2",
-    "drizzle-orm": "0.44.5",
-    "hono": "4.8.12",
+    "drizzle-orm": "0.45.2",
+    "hono": "4.13.5",
     "zod": "3.25.76"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "4.20250820.0",
     "drizzle-kit": "0.31.4",
     "typescript": "5.8.3",
-    "wrangler": "4.31.0"
+    "wrangler": "4.131.1"
   }
 }

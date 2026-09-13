@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { InfoModal } from "@/components/InfoModal";
 import { ThoughtItem } from "@/components/ThoughtItem";
 import { api } from "@/lib/api";
-import { makeThought, seedThoughts, type Thought } from "@/lib/thoughts";
+import { makeThought, type Thought } from "@/lib/thoughts";
 
 const MIN_Z = 0.4;
 const MAX_Z = 2.2;
@@ -24,7 +24,7 @@ export function Canvas() {
   const pointer = useRef<{ id: number; x: number; y: number } | null>(null);
 
   useEffect(() => {
-    api<StoredThought[]>("/api/thoughts").then((rows) => setThoughts(rows.length ? rows.map(fromStored) : seedThoughts())).catch(() => setThoughts(seedThoughts()));
+    api<StoredThought[]>("/api/thoughts").then((rows) => setThoughts(rows.map(fromStored))).catch(() => setThoughts([]));
   }, []);
 
   const zoomAt = useCallback((x: number, y: number, nextZoom: number) => {
@@ -77,10 +77,7 @@ export function Canvas() {
       setNewId(saved.id);
       setText("");
     } catch {
-      // Keep the canvas usable when the API is unavailable.
-      setThoughts((currentThoughts) => [...currentThoughts, thought]);
-      setNewId(thought.id);
-      setText("");
+      // Thoughts are only shown after the Worker confirms they were saved.
     }
   };
 
@@ -92,11 +89,13 @@ export function Canvas() {
       <div className="absolute left-0 top-0 origin-top-left" style={{ transform: `translate(${camera.x}px, ${camera.y}px) scale(${camera.z})` }}>{thoughts.map((thought) => <ThoughtItem key={thought.id} t={thought} isNew={thought.id === newId} />)}</div>
     </div>
     <button onClick={() => setInfo(true)} aria-label="About Moner Kotha" className="paper-edge absolute right-5 top-5 h-11 w-11 -rotate-2 border-[2.5px] border-foreground bg-note font-scrawl text-xl font-bold text-foreground">i</button>
-    <form onSubmit={submit} className="paper-edge absolute bottom-5 left-1/2 flex w-[min(560px,calc(100%-2rem))] -translate-x-1/2 flex-wrap items-center gap-2 border-[3px] border-foreground bg-note px-4 py-3" style={{ boxShadow: "4px 4px 0 var(--pencil)", transform: "translateX(-50%) rotate(-0.4deg)" }}>
+    <div className="absolute inset-x-0 bottom-5 flex justify-center px-4">
+    <form onSubmit={submit} className="paper-edge flex w-full max-w-[560px] flex-wrap items-center gap-2 border-[3px] border-foreground bg-note px-4 py-3" style={{ boxShadow: "4px 4px 0 var(--pencil)", transform: "rotate(-0.4deg)" }}>
       <div className="flex items-center gap-1">{(["good", "bad"] as const).map((value) => <button key={value} type="button" onClick={() => setMood(value)} className="paper-edge-alt px-2.5 py-1 font-hand text-lg" style={{ border: mood === value ? `2.5px solid ${value === "good" ? "var(--ink-blue)" : "var(--ink-red)"}` : "2px dashed var(--pencil)" }}>{value}</button>)}</div>
       <input value={text} maxLength={150} onChange={(event) => setText(event.target.value)} placeholder="moner kotha likho..." className="paper-edge min-w-[10rem] flex-1 border-[2.5px] border-foreground bg-note px-3 py-1.5 font-hand text-lg text-foreground outline-none" />
       <button type="submit" className="paper-edge-alt border-[2.5px] border-foreground bg-note px-4 py-1.5 font-hand text-lg text-foreground" style={{ boxShadow: "4px 4px 0 var(--pencil)" }}>send</button>
     </form>
+    </div>
     {info && <InfoModal onClose={() => setInfo(false)} />}
   </main>;
 }

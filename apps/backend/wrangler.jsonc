@@ -2,11 +2,22 @@
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "moner-kotha-api",
   "main": "src/index.ts",
-  "compatibility_date": "2026-08-13",
+  "compatibility_date": "2026-09-13",
   "compatibility_flags": ["nodejs_compat"],
   "vars": {
-    "CORS_ORIGIN": "http://localhost:5173"
+    "CORS_ORIGIN": "http://localhost:5173,https://monerkotha.bysaiful.site",
+    "RATE_LIMIT_TIME_ZONE": "Asia/Dhaka",
+    "READ_RATE_LIMIT_PER_DAY": "200",
+    "WRITE_RATE_LIMIT_PER_DAY": "10"
   },
+  "durable_objects": {
+    "bindings": [{ "name": "DAILY_MESSAGE_LIMITER", "class_name": "DailyMessageLimiter" }]
+  },
+  "exports": {
+    "DailyMessageLimiter": { "type": "durable-object", "storage": "sqlite" }
+  },
+  "routes": [{ "pattern": "api.monerkotha.bysaiful.site", "custom_domain": true }],
+  "workers_dev": false,
   "observability": {
     "enabled": true,
     "head_sampling_rate": 1

@@ -8,6 +8,11 @@ import { errorResponse } from "./utils/response.js";
 export const app = new Hono<{ Bindings: Env }>();
 
 app.use("/api/*", async (c, next) => {
+  c.header("X-Request-Id", crypto.randomUUID());
+  c.header("Cache-Control", "no-store");
+  await next();
+});
+app.use("/api/*", async (c, next) => {
   const allowedOrigins = c.env.CORS_ORIGIN.split(",").map((origin) => origin.trim());
   return cors({ origin: (origin) => allowedOrigins.includes(origin) ? origin : "", allowMethods: ["GET", "POST", "OPTIONS"] })(c, next);
 });
@@ -16,6 +21,6 @@ app.route("/api/health", healthRouter);
 app.route("/api/thoughts", thoughtsRouter);
 app.notFound((c) => c.json(errorResponse("Route not found.", "NOT_FOUND"), 404));
 app.onError((error, c) => {
-  console.error(JSON.stringify({ event: "unhandled_error", error: String(error) }));
+  console.error(JSON.stringify({ event: "unhandled_error", requestId: c.res.headers.get("X-Request-Id") ?? undefined, errorType: error.name }));
   return c.json(errorResponse("Internal server error.", "INTERNAL_SERVER_ERROR"), 500);
 });
