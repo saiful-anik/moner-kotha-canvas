@@ -13,6 +13,7 @@ const toThought = (thought: StoredThought): Thought => ({ ...thought, align: tho
 
 const between = (min:number, max:number) => Math.random() * (max-min) + min
 const collides = (x:number, y:number, text:string, thoughts:Thought[]) => thoughts.some(t => Math.abs(t.x-x) < (text.length * 4.3 + t.text.length * 4.3 + 54) && Math.abs(t.y-y) < 52)
+const noteWidth = (text: string, fontSize: number) => Math.max(fontSize * 3, Math.ceil(fontSize * Math.sqrt(text.length * 0.9)))
 
 export default function App() {
   const [thoughts, setThoughts] = useState<Thought[]>([])
@@ -70,7 +71,7 @@ export default function App() {
 
   return <main className={`wall ${dragging ? 'is-dragging' : ''}`} onPointerDown={startDrag} onPointerMove={moveDrag} onPointerUp={endDrag} onPointerCancel={endDrag} onWheel={zoomCanvas}>
     <div className="canvas" style={{transform:`translate(${camera.x}px, ${camera.y}px) scale(${zoom})`}}>
-      {thoughts.map(t => <p key={t.id} className={`thought ${t.mood} s${accentStyles[t.accent]} ${t.fresh ? 'fresh' : ''}`} style={{ left:`calc(50% + ${t.x}px)`, top:`calc(50% + ${t.y}px)`, fontSize:`${t.size}px`, maxWidth:`${t.width}px`, textAlign:t.align, '--thought-rotation': `${t.rotation}deg` } as CSSProperties}>{t.text}</p>)}
+      {thoughts.map(t => <p key={t.id} className={`thought ${t.mood} s${accentStyles[t.accent]} ${t.fresh ? 'fresh' : ''}`} style={{ left:`calc(50% + ${t.x}px)`, top:`calc(50% + ${t.y}px)`, fontSize:`${t.size}px`, maxWidth:`${noteWidth(t.text, t.size)}px`, textAlign:t.align, '--thought-rotation': `${t.rotation}deg` } as CSSProperties}>{t.text}</p>)}
     </div>
     <div className="brand-mark" aria-label="Moner Kotha"><span>Moner Kotha</span><i /></div>
     <button className="info-button" aria-label="What is Moner Kotha?" onClick={()=>setInfo(true)}>i</button>
