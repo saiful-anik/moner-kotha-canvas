@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1920, height=1080" />
+  <title>Moner Kotha — Brag</title>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <style>
+    @font-face { font-family: 'Kalam'; src: url('assets/fonts/Kalam-Regular.ttf') format('truetype'); font-weight: 400; font-style: normal; }
+    @font-face { font-family: 'Kalam'; src: url('assets/fonts/Kalam-Bold.ttf') format('truetype'); font-weight: 700; font-style: normal; }
+    @font-face { font-family: 'Patrick Hand'; src: url('assets/fonts/PatrickHand-Regular.ttf') format('truetype'); font-weight: 400; font-style: normal; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #fdfbf7; color: #2d2d2d; font-family: 'Patrick Hand', cursive; }
+    #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #fdfbf7; }
+    .paper { position: absolute; inset: 0; background-color: #fdfbf7; background-image: radial-gradient(#e5e0d8 1px, transparent 1px); background-size: 24px 24px; }
+    .clip { position: absolute; inset: 0; overflow: hidden; }
+    .scene-inner { position: absolute; inset: 0; }
+    .brand { position: absolute; top: 56px; left: 74px; font-family: 'Kalam', cursive; font-size: 31px; font-weight: 700; letter-spacing: -.5px; transform: rotate(-3deg); }
+    .brand::after { content: ''; display: block; width: 138px; border-bottom: 3px dashed #2d2d2d; transform: rotate(-2deg); opacity: .75; }
+    .kicker { position: absolute; top: 118px; left: 50%; font: 700 25px/1 'Kalam', cursive; letter-spacing: 2px; color: #2d5da1; text-transform: uppercase; }
+    .hero-line { position: absolute; left: 50%; top: 43%; width: 1180px; margin-left: -590px; text-align: center; font: 700 88px/1.06 'Kalam', cursive; letter-spacing: -2px; }
+    .hero-line .blue { color: #2d5da1; }
+    .pencil-ring { position: absolute; left: 50%; top: 50%; width: 1070px; height: 260px; margin-left: -535px; margin-top: -130px; border: 4px solid #2d5da1; border-radius: 49% 51% 47% 53% / 56% 44% 55% 45%; opacity: .58; }
+    .thought { position: absolute; margin: 0; font: 39px/1.08 'Patrick Hand', cursive; color: #2d2d2d; white-space: nowrap; }
+    .thought.good { color: #245a9d; } .thought.bad { color: #a33e42; }
+    .thought.underline::after { content: ''; display: block; width: 70%; border-bottom: 3px solid currentColor; transform: rotate(-2deg); margin: 7px 0 0 4px; opacity: .7; }
+    .thought.circle::before { content: ''; position: absolute; inset: -15px -24px -14px; border: 3px solid #ff4d4d; border-radius: 48% 52% 45% 55%; opacity: .55; }
+    .wall-title { position: absolute; left: 50%; top: 116px; width: 1000px; margin-left: -500px; text-align: center; font: 700 59px/1.1 'Kalam', cursive; }
+    .wall-sub { position: absolute; left: 50%; top: 195px; width: 900px; margin-left: -450px; text-align: center; font: 32px/1.2 'Patrick Hand', cursive; color: #625d55; }
+    .composer { position: absolute; left: 50%; bottom: 98px; width: 1270px; height: 138px; margin-left: -635px; padding: 25px 32px; display: flex; align-items: center; gap: 25px; background: #fffefa; border: 5px solid #2d2d2d; border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px; box-shadow: 10px 10px 0 #2d2d2d; }
+    .moods { display: flex; gap: 12px; } .mood { width: 57px; height: 57px; display: grid; place-items: center; border: 0; background: transparent; font: 39px 'Patrick Hand', cursive; } .mood.selected { border-bottom: 6px solid #2d5da1; color: #2d5da1; transform: rotate(-3deg); }
+    .input { flex: 1; height: 70px; padding: 10px 18px; border: 3px solid #5f5b55; border-radius: 15px 3px 12px 5px / 5px 16px 4px 14px; background: #fff; font: 39px/1 'Patrick Hand', cursive; color: #2d2d2d; }
+    .send { padding: 16px 24px; border: 4px solid #2d2d2d; border-radius: 9px 15px 8px 14px / 14px 8px 15px 9px; background: #fff9c4; box-shadow: 6px 6px 0 #2d2d2d; font: 32px/1 'Patrick Hand', cursive; white-space: nowrap; }
+    .cursor { position: absolute; width: 38px; height: 52px; border-left: 8px solid #2d2d2d; border-top: 8px solid #2d2d2d; transform: skew(-20deg) rotate(-20deg); }
+    .new-thought { position: absolute; left: 670px; top: 398px; margin: 0; font: 49px/1.1 'Patrick Hand', cursive; color: #245a9d; transform: rotate(-2deg); }
+    .new-thought::after { content: ''; display: block; width: 75%; border-bottom: 4px solid #2d5da1; transform: rotate(1deg); margin-top: 8px; }
+    .outro { position: absolute; left: 50%; top: 330px; width: 1200px; margin-left: -600px; text-align: center; }
+    .outro .leave { font: 700 118px/1 'Kalam', cursive; letter-spacing: -3px; } .outro .name { margin-top: 48px; font: 700 68px/1 'Kalam', cursive; color: #2d5da1; } .outro .promise { margin-top: 25px; font: 36px/1.1 'Patrick Hand', cursive; color: #2d2d2d; }
+    .outro .rule { width: 390px; margin: 20px auto 0; border-bottom: 4px solid #ff4d4d; transform: rotate(-1deg); }
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="moner-kotha-brag" data-start="0" data-width="1920" data-height="1080" data-duration="20" data-fps="30">
+    <div class="paper"></div>
+    <section id="scene-hook" class="clip" data-start="0" data-duration="4" data-track-index="1"><div class="scene-inner">
+      <div class="brand">Moner Kotha</div><div id="hook-kicker" class="kicker">an anonymous thought wall</div><div id="hook-ring" class="pencil-ring"></div>
+      <div id="hook-line" class="hero-line">some thoughts just need<br><span class="blue">somewhere to go.</span></div>
+    </div></section>
+    <section id="scene-wall" class="clip" data-start="4" data-duration="5" data-track-index="2"><div class="scene-inner">
+      <div class="brand">Moner Kotha</div><div id="wall-title" class="wall-title">a wall that listens quietly.</div><div id="wall-sub" class="wall-sub">tiny things strangers wanted to get off their chest</div>
+      <p id="t1" class="thought good underline" style="left:190px;top:380px;transform:rotate(-2deg)">ajke mon ta bhalo</p><p id="t2" class="thought bad" style="left:1020px;top:340px;transform:rotate(2deg)">i miss someone i shouldn’t</p><p id="t3" class="thought good circle" style="left:450px;top:700px;transform:rotate(1deg)">finally something went right</p><p id="t4" class="thought bad underline" style="left:1200px;top:720px;transform:rotate(-1deg)">tired of everything</p>
+    </div></section>
+    <section id="scene-compose" class="clip" data-start="9" data-duration="6" data-track-index="3"><div class="scene-inner">
+      <div class="brand">Moner Kotha</div><p class="thought good" style="left:180px;top:280px;transform:rotate(-2deg)">maybe i’m healing</p><p class="thought bad" style="left:1200px;top:260px;transform:rotate(1deg)">not today.</p><p class="thought good underline" style="left:1320px;top:540px;transform:rotate(-1deg)">she texted back :)</p>
+      <div id="composer" class="composer"><div class="moods"><div id="mood-good" class="mood selected">☺</div><div class="mood">☹</div></div><div id="input-text" class="input">maybe tomorrow will be better</div><div id="send-button" class="send">put it here ↗</div></div><div id="cursor" class="cursor"></div><p id="posted" class="new-thought">maybe tomorrow will be better</p>
+    </div></section>
+    <section id="scene-outro" class="clip" data-start="15" data-duration="5" data-track-index="4"><div class="scene-inner">
+      <div class="brand">Moner Kotha</div><p class="thought good" style="left:190px;top:240px;transform:rotate(-2deg)">ajke peaceful lagse</p><p class="thought bad" style="left:1250px;top:300px;transform:rotate(2deg)">ami ar pari na</p><p class="thought good underline" style="left:360px;top:760px;transform:rotate(1deg)">maybe tomorrow will be better</p><p class="thought bad" style="left:1240px;top:760px;transform:rotate(-1deg)">it will pass</p>
+      <div id="outro" class="outro"><div id="leave" class="leave">leave it here.</div><div id="name" class="name">Moner Kotha</div><div id="rule" class="rule"></div><div id="promise" class="promise">no accounts. no likes. no replies.</div></div>
+    </div></section>
+    <audio id="bg-music" data-start="0" data-duration="20" data-track-index="10" data-volume="0.28" src="assets/music/happy-beats-business-moves-vol-12-by-ende-dot-app.mp3"></audio>
+    <audio id="sfx-drop" data-start="1.05" data-duration="0.11" data-track-index="11" data-volume="0.55" src="assets/sfx/interface/drop_001.ogg"></audio>
+    <audio id="sfx-click" data-start="12.05" data-duration="0.01" data-track-index="12" data-volume="0.5" src="assets/sfx/interface/click_002.ogg"></audio>
+    <audio id="sfx-bong" data-start="17.35" data-duration="0.12" data-track-index="13" data-volume="0.48" src="assets/sfx/interface/bong_001.ogg"></audio>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.from('#hook-kicker', { opacity: 0, y: -18, duration: .45, ease: 'power2.out' }, .25).from('#hook-line', { opacity: 0, y: 42, duration: .8, ease: 'power3.out' }, .65).from('#hook-ring', { opacity: 0, scale: .9, duration: .7, ease: 'power2.out' }, .75);
+    tl.from('#wall-title', { opacity: 0, y: 30, duration: .55, ease: 'power3.out' }, 4.3).from('#wall-sub', { opacity: 0, y: 20, duration: .45, ease: 'power2.out' }, 4.75);
+    tl.from('#t1', { opacity: 0, y: 32, duration: .42, ease: 'back.out(1.4)' }, 5.15).from('#t2', { opacity: 0, y: 32, duration: .42, ease: 'back.out(1.4)' }, 5.75).from('#t3', { opacity: 0, y: 32, duration: .42, ease: 'back.out(1.4)' }, 6.35).from('#t4', { opacity: 0, y: 32, duration: .42, ease: 'back.out(1.4)' }, 7.0);
+    tl.from('#composer', { opacity: 0, y: 70, duration: .65, ease: 'power3.out' }, 9.25).from('#cursor', { opacity: 0, duration: .25 }, 10.1).fromTo('#cursor', { x: 1050, y: 700 }, { x: 1465, y: 777, duration: 1.2, ease: 'power1.inOut' }, 10.25).to('#send-button', { x: 6, y: 6, duration: .14, ease: 'power1.out' }, 12.02).to('#send-button', { x: 0, y: 0, duration: .16, ease: 'power1.in' }, 12.18).to('#cursor', { opacity: 0, duration: .15 }, 12.25).from('#posted', { opacity: 0, y: 210, scale: .72, duration: .65, ease: 'back.out(1.5)' }, 12.28);
+    tl.from('#leave', { opacity: 0, y: 45, duration: .65, ease: 'power3.out' }, 15.4).from('#name', { opacity: 0, y: 28, duration: .5, ease: 'power3.out' }, 17.35).from('#rule', { opacity: 0, scaleX: .4, duration: .35, ease: 'power2.out' }, 17.65).from('#promise', { opacity: 0, y: 16, duration: .4, ease: 'power2.out' }, 17.8);
+    window.__timelines['moner-kotha-brag'] = tl;
+  </script>
+</body>
+</html>
