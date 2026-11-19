@@ -2,6 +2,20 @@
 
 Anonymous thoughts on an infinite canvas, built as a pnpm workspace.
 
+## Featured screenshots
+
+### The thought canvas
+
+Drag to explore handwritten thoughts, or choose a mood and add one of your own.
+
+![Handwritten sample thoughts scattered across a dotted paper canvas, with a mood selector and composer at the bottom](docs/screenshots/thought-canvas.png)
+
+### About the canvas
+
+The taped paper panel explains how to leave a thought anonymously.
+
+![Taped paper About panel open over the dimmed thought canvas](docs/screenshots/about-panel.png)
+
 ## Stack
 
 - Frontend: Vite, React, React Router, React Query, Tailwind CSS
